@@ -27,6 +27,7 @@ public class ClientMT {
     private ClientOutConnection out;
     private ClientInConnection in;
 
+    //construct and run the client
     private ClientMT() {
         try {
             setupClient();
@@ -38,19 +39,23 @@ public class ClientMT {
         }
     }
 
+    //create and start new client instance
     public static void main(String args[]) {
         new ClientMT();
     }
 
+    //setup the client socket
     private void setupClient() throws IOException {
         socket = new Socket(InetAddress.getLocalHost(), PORT);
         System.out.println("Client started, connecting to server...");
     }
 
+    //cleanup the client socket
     private void cleanupClient() throws IOException {
         socket.close();
     }
 
+    //start the communication sequence
     private void start() throws IOException, InterruptedException {
         System.out.println("Setup connected, opening up communication channels...");
         setupStreams();
@@ -58,6 +63,7 @@ public class ClientMT {
         System.out.println("Connection terminated...");
     }
 
+    //start the communication streams
     private void setupStreams() throws IOException {
         out = new ClientOutConnection(socket);
         in = new ClientInConnection(socket);
@@ -66,11 +72,13 @@ public class ClientMT {
         in.start();
     }
 
+    //cleanup the streams by closing down the connections
     private void cleanupStreams() throws InterruptedException {
         out.join();
         in.join();
     }
 
+    //handle the out-connection to the server
     private class ClientOutConnection extends Thread {
         private PrintWriter writer;
         private Scanner scanner;
@@ -90,9 +98,13 @@ public class ClientMT {
                 writer.println(message);
                 writer.flush();
             }
+
+//            writer.close();
+//            scanner.close();
         }
     }
 
+    //handle the in-connection to the server
     private class ClientInConnection extends Thread {
         private BufferedReader reader;
 
@@ -113,6 +125,12 @@ public class ClientMT {
                     e.printStackTrace();
                 }
             }
+
+//            try {
+//                reader.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 }
