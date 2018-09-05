@@ -56,6 +56,7 @@ public class ServerMT {
         client = server.accept();
         System.out.println("Client connected, opening up communication channels...");
         setupStreams();
+        System.out.println("Terminating connections...");
         cleanupStreams();
         System.out.println("Connection terminated...");
     }
@@ -71,7 +72,6 @@ public class ServerMT {
     private void cleanupStreams() throws InterruptedException {
         out.join();
         in.join();
-        System.out.println("Terminating connections...");
     }
 
     private class ServerOutConnection extends Thread {
