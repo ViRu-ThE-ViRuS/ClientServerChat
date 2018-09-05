@@ -56,7 +56,6 @@ public class ServerMT {
         client = server.accept();
         System.out.println("Client connected, opening up communication channels...");
         setupStreams();
-        System.out.println("Terminating connections...");
         cleanupStreams();
         System.out.println("Connection terminated...");
     }

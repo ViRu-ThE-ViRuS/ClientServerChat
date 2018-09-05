@@ -54,7 +54,6 @@ public class ClientMT {
     private void start() throws IOException, InterruptedException {
         System.out.println("Setup connected, opening up communication channels...");
         setupStreams();
-        System.out.println("Terminating connections...");
         cleanupStreams();
         System.out.println("Connection terminated...");
     }
